@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title">InfinityBoard — Documentación del Proyecto</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #ffffff;
+            --bg-alt: #f7f7f7;
+            --text: #3e424b;
+            --heading: #1d1f23;
+            --orange: #ff4613;
+            --orange-dark: #c53811;
+            --teal: #3bd4ae;
+            --border: #eaeaea;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        body {
+            font-family: 'Manrope', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .lang-toggle {
+            position: fixed;
+            top: 32px;
+            right: 32px;
+            z-index: 100;
+            display: flex;
+            border: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+        }
+
+        .lang-toggle button {
+            padding: 10px 20px;
+            font-family: 'Manrope', sans-serif;
+            font-size: 12px;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .lang-toggle button.active {
+            background: var(--orange);
+            color: #fff;
+        }
+
+        .lang-toggle button:not(.active) {
+            background: transparent;
+            color: var(--text);
+        }
+
+        .lang-toggle button:not(.active):hover {
+            background: var(--bg-alt);
+        }
+
+        [data-lang="en"] { display: none; }
+
+        header {
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 100px 24px;
+            background: radial-gradient(circle at 50% 50%, #fff 0%, #f7f7f7 100%);
+        }
+
+        header img {
+            height: 120px;
+            margin-bottom: 40px;
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        header h1 {
+            font-size: clamp(3rem, 10vw, 6rem);
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            line-height: 0.9;
+            margin-bottom: 24px;
+            animation: fadeInUp 0.8s ease-out 0.2s forwards;
+            opacity: 0;
+        }
+
+        header h1 span { color: var(--orange); }
+
+        header p {
+            font-size: clamp(1.1rem, 3vw, 1.5rem);
+            font-weight: 300;
+            max-width: 800px;
+            color: var(--text);
+            animation: fadeInUp 0.8s ease-out 0.4s forwards;
+            opacity: 0;
+        }
+
+        .badges {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 48px;
+            flex-wrap: wrap;
+            animation: fadeInUp 0.8s ease-out 0.6s forwards;
+            opacity: 0;
+        }
+
+        .badge {
+            padding: 6px 16px;
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            border: 1px solid var(--border);
+            color: var(--heading);
+            background: #fff;
+        }
+
+        .badge.orange { border-color: var(--orange); color: var(--orange); }
+        .badge.teal { border-color: var(--teal); color: var(--teal); }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 100px 24px;
+        }
+
+        section { margin-bottom: 120px; opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+        section.visible { opacity: 1; transform: translateY(0); }
+
+        h2 {
+            font-size: 3rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 48px;
+            position: relative;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -10px;
+            width: 60px;
+            height: 4px;
+            background: var(--orange);
+        }
+
+        /* Unique Spatial Composition: Moodboard/Masonry Layout */
+        .feature-grid {
+            display: column;
+            columns: 3 300px;
+            column-gap: 24px;
+        }
+
+        .feature-card {
+            break-inside: avoid;
+            background: #fff;
+            border: 1px solid var(--border);
+            padding: 40px;
+            margin-bottom: 24px;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card:hover {
+            border-color: var(--orange);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+        }
+
+        .feature-card .icon {
+            font-size: 2.5rem;
+            margin-bottom: 24px;
+            display: block;
+        }
+
+        .feature-card h4 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--heading);
+        }
+
+        .feature-card p {
+            font-size: 1rem;
+            font-weight: 300;
+            margin: 0;
+        }
+
+        /* Alternating card heights for masonry feeling */
+        .feature-card:nth-child(2n) { padding-bottom: 80px; }
+        .feature-card:nth-child(3n) { padding-bottom: 60px; }
+
+        .arch-diagram {
+            background: var(--bg-alt);
+            padding: 64px;
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+
+        .arch-diagram pre {
+            text-align: left;
+            display: inline-block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--heading);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 32px;
+        }
+
+        th {
+            text-align: left;
+            padding: 20px;
+            border-bottom: 2px solid var(--heading);
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-size: 0.75rem;
+        }
+
+        td {
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.95rem;
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-alt);
+            padding: 3px 8px;
+            font-size: 0.85em;
+            color: var(--orange);
+        }
+
+        pre {
+            background: var(--heading);
+            color: #fff;
+            padding: 32px;
+            overflow-x: auto;
+            margin: 32px 0;
+        }
+
+        pre code {
+            color: #fff;
+            background: none;
+            padding: 0;
+        }
+
+        footer {
+            background: var(--bg-alt);
+            padding: 100px 24px;
+            text-align: center;
+            border-top: 1px solid var(--border);
+        }
+
+        footer strong { color: var(--heading); }
+
+        footer a {
+            color: var(--orange);
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        footer a:hover { color: var(--orange-dark); }
+
+        @media (max-width: 768px) {
+            header h1 { font-size: 3.5rem; }
+            .feature-grid { columns: 1; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Language Toggle -->
+<div class="lang-toggle">
+    <button class="active" onclick="setLang('es')">ES</button>
+    <button onclick="setLang('en')">EN</button>
+</div>
+
+<!-- Header -->
+<header>
+    <img src="Skills/crtic-frontend-remodeller/references/Logo naranjo MR.png" alt="CRTIC Logo" />
+    <h1>Infinity<span>Board</span></h1>
+    <p data-lang="es">Lienzo infinito con herramientas de IA para diseño y colaboración visual.</p>
+    <p data-lang="en">Infinite canvas with AI tools for visual design and collaboration.</p>
+    <div class="badges">
+        <span class="badge orange">
+            <span data-lang="es">Ecosistema CRTIC</span>
+            <span data-lang="en">CRTIC Ecosystem</span>
+        </span>
+        <span class="badge">React 18</span>
+        <span class="badge">Tauri</span>
+        <span class="badge">Vite</span>
+        <span class="badge teal">
+            <span data-lang="es">Gemini Flash 2.5</span>
+            <span data-lang="en">Gemini Flash 2.5</span>
+        </span>
+        <span class="badge">
+            <span data-lang="es">Licencia MIT</span>
+            <span data-lang="en">MIT License</span>
+        </span>
+    </div>
+</header>
+
+<main>
+    <!-- Features (Masonry) -->
+    <section class="visible">
+        <h2 data-lang="es">Características</h2>
+        <h2 data-lang="en">Features</h2>
+
+        <div class="feature-grid">
+            <div class="feature-card">
+                <div class="icon">🎨</div>
+                <h4 data-lang="es">Lienzo Infinito</h4>
+                <h4 data-lang="en">Infinite Canvas</h4>
+                <p data-lang="es">Navega sin límites con pan, zoom y scroll infinito.</p>
+                <p data-lang="en">Navigate without limits with pan, zoom and infinite scroll.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">🤖</div>
+                <h4 data-lang="es">Generador de IA</h4>
+                <h4 data-lang="en">AI Generator</h4>
+                <p data-lang="es">Crea imágenes directamente en el canvas usando la API de Gemini.</p>
+                <p data-lang="en">Create images directly on the canvas using the Gemini API.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">✏️</div>
+                <h4 data-lang="es">Herramientas de Dibujo</h4>
+                <h4 data-lang="en">Drawing Tools</h4>
+                <p data-lang="es">Pluma, líneas, flechas, rectángulos y círculos con estilos personalizables.</p>
+                <p data-lang="en">Pen, lines, arrows, rectangles and circles with customizable styles.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">📝</div>
+                <h4 data-lang="es">Texto y Notas</h4>
+                <h4 data-lang="en">Text & Notes</h4>
+                <p data-lang="es">Texto libre y sticky notes con tipografía y colores personalizables.</p>
+                <p data-lang="en">Free text and sticky notes with customizable typography and colors.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">🧲</div>
+                <h4 data-lang="es">Snap & Grid</h4>
+                <h4 data-lang="en">Snap & Grid</h4>
+                <p data-lang="es">Alineación inteligente con grid configurable y snap a objetos.</p>
+                <p data-lang="en">Smart alignment with configurable grid and snap to objects.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">📸</div>
+                <h4 data-lang="es">Exportar Áreas</h4>
+                <h4 data-lang="en">Area Export</h4>
+                <p data-lang="es">Selecciona y exporta cualquier región del canvas como imagen.</p>
+                <p data-lang="en">Select and export any region of the canvas as an image.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Architecture -->
+    <section class="visible">
+        <h2 data-lang="es">Arquitectura</h2>
+        <h2 data-lang="en">Architecture</h2>
+        <div class="arch-diagram">
+            <pre><code>
+   ┌─────────────────────────────────────────────┐
+   │                  App.jsx                    │
+   │  ┌──────┐ ┌───────┐ ┌──────┐ ┌──────────┐  │
+   │  │TopBar│ │Toolbar│ │Status│ │Properties │  │
+   │  │      │ │       │ │Bar   │ │Panel      │  │
+   │  └──────┘ └───┬───┘ └──────┘ └──────────┘  │
+   │               │                             │
+   │  ┌────────────┴────────────────────────┐    │
+   │  │       InfiniteCanvas (Konva)        │    │
+   │  └─────────────────────────────────────┘    │
+   │               │                             │
+   │  ┌────────────┴──────┐ ┌──────────────┐    │
+   │  │  useStore (Zustand)│ │ aiGenerator  │    │
+   │  │                    │ │ (Gemini API) │    │
+   │  └────────────────────┘ └──────────────┘    │
+   └─────────────────────────────────────────────┘
+            </code></pre>
+        </div>
+    </section>
+
+    <!-- Installation -->
+    <section class="visible">
+        <h2 data-lang="es">Instalación</h2>
+        <h2 data-lang="en">Installation</h2>
+        <pre><code>git clone https://github.com/techCRTIC/InfinityBoard.git
+cd InfinityBoard
+npm install
+npm run dev</code></pre>
+        <p data-lang="es">Configura tu API Key de Gemini en <strong>Settings (⚙️)</strong> para activar la IA.</p>
+        <p data-lang="en">Configure your Gemini API Key in <strong>Settings (⚙️)</strong> to enable AI features.</p>
+    </section>
+
+    <!-- Shortcuts -->
+    <section class="visible">
+        <h2 data-lang="es">Atajos de Teclado</h2>
+        <h2 data-lang="en">Keyboard Shortcuts</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>
+                        <span data-lang="es">Tecla</span>
+                        <span data-lang="en">Key</span>
+                    </th>
+                    <th>
+                        <span data-lang="es">Acción</span>
+                        <span data-lang="en">Action</span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td><code>V</code></td><td><span data-lang="es">Selección</span><span data-lang="en">Selection</span></td></tr>
+                <tr><td><code>T</code></td><td><span data-lang="es">Texto</span><span data-lang="en">Text</span></td></tr>
+                <tr><td><code>S</code></td><td><span data-lang="es">Nota adhesiva</span><span data-lang="en">Sticky note</span></td></tr>
+                <tr><td><code>R</code></td><td><span data-lang="es">Rectángulo</span><span data-lang="en">Rectangle</span></td></tr>
+                <tr><td><code>C</code></td><td><span data-lang="es">Círculo</span><span data-lang="en">Circle</span></td></tr>
+                <tr><td><code>P</code></td><td><span data-lang="es">Pluma</span><span data-lang="en">Pen</span></td></tr>
+                <tr><td><code>L</code></td><td><span data-lang="es">Línea</span><span data-lang="en">Line</span></td></tr>
+                <tr><td><code>A</code></td><td><span data-lang="es">Flecha</span><span data-lang="en">Arrow</span></td></tr>
+                <tr><td><code>G</code></td><td><span data-lang="es">Panel Creator (IA)</span><span data-lang="en">Panel Creator (AI)</span></td></tr>
+                <tr><td><code>Ctrl+Z</code></td><td><span data-lang="es">Deshacer</span><span data-lang="en">Undo</span></td></tr>
+                <tr><td><code>Ctrl+Shift+Z</code></td><td><span data-lang="es">Rehacer</span><span data-lang="en">Redo</span></td></tr>
+                <tr><td><code>Ctrl+G</code></td><td><span data-lang="es">Agrupar</span><span data-lang="en">Group</span></td></tr>
+                <tr><td><code>Delete</code></td><td><span data-lang="es">Eliminar</span><span data-lang="en">Delete</span></td></tr>
+                <tr><td><code>Space+Drag</code></td><td><span data-lang="es">Paneo</span><span data-lang="en">Pan</span></td></tr>
+                <tr><td><code>Scroll</code></td><td>Zoom</td></tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Tech Stack -->
+    <section class="visible">
+        <h2>
+            <span data-lang="es">Pila Tecnológica</span>
+            <span data-lang="en">Tech Stack</span>
+        </h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>
+                        <span data-lang="es">Componente</span>
+                        <span data-lang="en">Component</span>
+                    </th>
+                    <th>
+                        <span data-lang="es">Tecnología</span>
+                        <span data-lang="en">Technology</span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Frontend</td>
+                    <td>React 18 + Vite 5</td>
+                </tr>
+                <tr>
+                    <td>
+                        <span data-lang="es">Motor de Canvas</span>
+                        <span data-lang="en">Canvas Engine</span>
+                    </td>
+                    <td>Konva.js (react-konva)</td>
+                </tr>
+                <tr>
+                    <td>
+                        <span data-lang="es">Estado</span>
+                        <span data-lang="en">State</span>
+                    </td>
+                    <td>Zustand</td>
+                </tr>
+                <tr>
+                    <td>
+                        <span data-lang="es">Escritorio</span>
+                        <span data-lang="en">Desktop</span>
+                    </td>
+                    <td>Tauri v1</td>
+                </tr>
+                <tr>
+                    <td>
+                        <span data-lang="es">Animación</span>
+                        <span data-lang="en">Animation</span>
+                    </td>
+                    <td>Framer Motion</td>
+                </tr>
+                <tr>
+                    <td>
+                        <span data-lang="es">Servicio de IA</span>
+                        <span data-lang="en">AI Service</span>
+                    </td>
+                    <td>Google Gemini API</td>
+                </tr>
+                <tr>
+                    <td>
+                        <span data-lang="es">Tipografía</span>
+                        <span data-lang="en">Typography</span>
+                    </td>
+                    <td>Manrope</td>
+                </tr>
+                <tr>
+                    <td>
+                        <span data-lang="es">Estilos</span>
+                        <span data-lang="en">Styles</span>
+                    </td>
+                    <td>Tailwind CSS + CRTIC Design System</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+</main>
+
+<footer>
+    <p>
+        <span data-lang="es">Desarrollado para</span>
+        <span data-lang="en">Developed for</span>
+        <a href="https://crtic.cl"><strong>CRTIC</strong></a> — 
+        <span data-lang="es">Centro para la Revolución Tecnológica en Industrias Creativas</span>
+        <span data-lang="en">Center for Technological Revolution in Creative Industries</span>
+    </p>
+    <p style="margin-top: 16px; opacity: 0.6;">
+        <a href="https://github.com/techCRTIC/InfinityBoard">GitHub</a> ·
+        <a href="LICENSE">
+            <span data-lang="es">LICENCIA</span>
+            <span data-lang="en">LICENSE</span>
+        </a> ·
+        <a href="CONTRIBUTING.md">
+            <span data-lang="es">CONTRIBUIR</span>
+            <span data-lang="en">CONTRIBUTING</span>
+        </a>
+    </p>
+</footer>
+
+<script>
+    function setLang(lang) {
+        // Update document title
+        const titleEl = document.getElementById('page-title');
+        if (lang === 'es') {
+            titleEl.textContent = 'InfinityBoard — Documentación del Proyecto';
+        } else {
+            titleEl.textContent = 'InfinityBoard — Project Documentation';
+        }
+
+        // Toggle button active state
+        document.querySelectorAll('.lang-toggle button').forEach(btn => {
+            btn.classList.toggle('active', btn.textContent.toLowerCase() === lang);
+        });
+
+        // Show/hide elements
+        document.querySelectorAll('[data-lang]').forEach(el => {
+            if (el.dataset.lang === lang) {
+                el.style.display = 'inline'; // Changed to inline to support spans better
+            } else {
+                el.style.display = 'none';
+            }
+        });
+
+        // Block elements fix (p, h2, section etc should be block)
+        document.querySelectorAll('p[data-lang], h2[data-lang], section[data-lang], h4[data-lang]').forEach(el => {
+            if (el.dataset.lang === lang) el.style.display = 'block';
+        });
+    }
+
+    // Scroll reveal logic
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('section').forEach(section => {
+        observer.observe(section);
+    });
+
+    // Initialize
+    setLang('es');
+</script>
+
+</body>
+</html>

@@ -1,0 +1,21 @@
+# Dependencies
+node_modules/
+/src-tauri/target/
+
+# Compilación
+/dist/
+/build/
+*.exe
+*.msi
+
+# Otros
+.DS_Store
+.env
+.env.*
+.idea/
+.vscode/
+coverage/
+*.log
+*.tmp
+.turbo/
+Thumbs.db
