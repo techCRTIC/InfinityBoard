@@ -22,10 +22,10 @@
 ## 🇪🇸 Español
 
 ### ¿Qué es InfinityBoard?
-
 **InfinityBoard** es una aplicación de escritorio desarrollada por [CRTIC](https://crtic.cl) que ofrece un lienzo infinito para diseño y brainstorming visual. Combina herramientas de dibujo clásicas con generación de imágenes por IA, todo en una interfaz intuitiva y rápida.
 
 ### Características Principales
+
 
 | Función | Descripción |
 |---------|-------------|
